@@ -16,4 +16,5 @@ elif signs == "=":
     print(f"num1 = num2 = {num1 == num2}")
 elif signs == "тип":
     print(num1, type(num1), num2, type(num2))
-else: print("Введений неправильний знак")
+else:
+    print("Введений неправильний знак")
