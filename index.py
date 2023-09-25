@@ -154,18 +154,7 @@ for i in range(10):
     create_plane()
         
 
-# def create_base():
-#         new_base = generate_base()()
-#         for base in bases:
-#             if base.get_id() == new_base.get_id():
-#                 create_base()
-#         new_base.set_health(100)
-#         bases.append(new_base)
-#         time.sleep(0.1)
-#     create_base()
-
 while(True):
-    # randomly move ships
     for plane in planes:
         plane.move(random.randint(-1, 1), random.randint(-1, 1))
     
@@ -216,14 +205,6 @@ while(True):
         else:
             print(f'{plane.get_name()} : {plane.get_health()} ♥️ : {plane.get_position()}')
     print('------------------------')
-    # read key from keyboard if q = break
-
-    
-    
-        
-    
-        
-
 
     if(input() == 'q'):
         break
