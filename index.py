@@ -180,21 +180,22 @@ while(True):
             destroyed_bases.append(base)
 
 
-    # randomly attack ships
     for plane in planes:
         plane_id = plane.get_id()
         if (plane_id <= 30):
             target = random.choice(planes)
-            plane.attack(target)
-        else:
+            plane.attack(target) 
+        elif (30 <plane_id <= 60):
             target = random.choice(bases)
             plane.attack(target)
+
 
     if len(destroyed_bases) == 3 :
         print("You win!")
         exit()
 
-    if len(destroyed_planes) >= 9 :
+    print(len(destroyed_planes))
+    if len(destroyed_planes) > 8 :
         for plane in planes:
             if(plane.get_health() > 0):
                 print(f'{plane.get_name()} : {plane.get_health()} ♥️ : {plane.get_position()} - Plane Won!')
@@ -209,7 +210,6 @@ while(True):
         else:
             print(f'{base.get_name()} : {base.get_health()} ♥️ : Undefined')
 
-    # print ships on their position on the board
     for plane in planes:
         if(plane.get_health() == 0):
             print(f'{plane.get_name()} : dead 💀 : {plane.get_position()}')
