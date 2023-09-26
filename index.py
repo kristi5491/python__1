@@ -54,9 +54,18 @@ class Attacker:
         return self.__damage
     def attack(self, target:Health):
         target.damage(self.__damage)
+    
+
     def __init__(self, damage = 20):
         self.__damage = damage
     
+class Healer:
+    __heal = 4
+    def healing(self, target:Health):
+        target.heal(self.__heal)
+    def __init__(self, heal):
+        self.__heal = heal
+        
 
 class Name:
     __name = "Player"
@@ -65,16 +74,7 @@ class Name:
         return self.__name
     def get_id(self):
         return self.__id
-    def __init__(self, id = random.randint(0, 100), name=f'plane'):
-        if name == 'plane':
-            if id <= 30:
-                name = f'destroyer [{id}]'
-            elif 30 < id <= 60:
-                name = f'bomber [{id}]'
-            elif  60 < id <= 75:
-                name = f'scouter [{id}]'
-        else:
-            name = f'base [{id}]'
+    def __init__(self, id = random.randint(0, 100), name=f'plane'):             
         self.__name = name
         self.__id = id
 
@@ -92,7 +92,7 @@ def generate_plan():
             def __init__(self, max_health=100, x = 0, y = 0, move_speed = 1, damage=10):
                 Health.__init__(self, max_health)
                 Position.__init__(self, x, y ,move_speed )
-                Name.__init__(self, id=random_value)
+                Name.__init__(self, id=random_value, name = f'destroyer [{random_value}]')
                 Attacker.__init__(self, damage)
         return Plane
     elif (30 < random_value <= 60):
@@ -103,18 +103,19 @@ def generate_plan():
             def __init__(self, max_health=100, x = 0, y = 0, move_speed = 1, damage=10):
                 Health.__init__(self, max_health)
                 Position.__init__(self, x, y ,move_speed )
-                Name.__init__(self, id=random_value)
+                Name.__init__(self, id=random_value, name = f'bomber [{random_value}]')
                 Attacker.__init__(self, damage)
         return Plane
     else :
-        class Plane(Health, Position, Name):
+        class Plane(Health, Position, Name, Healer):
             def move(self, x, y):
                 if(self.get_health() > 0):
                     return super().move(x, y)
-            def __init__(self, max_health=100, x = 0, y = 0, move_speed = 2):
+            def __init__(self, max_health=100, x = 0, y = 0, move_speed = 2, heal=5):
                 Health.__init__(self, max_health)
                 Position.__init__(self, x, y ,move_speed )
-                Name.__init__(self, id=random_value)
+                Name.__init__(self, id=random_value, name = f'scouter [{random_value}]')
+                Healer.__init__(self, heal)
         return Plane
    
 
@@ -126,10 +127,10 @@ def generate_base():
     random_value = random.randint(76, 100)
 
     class Base(Health, Position,Name):
-        def __init__(self, max_health=300):
+        def __init__(self, max_health=300, x=random.randint(-5,5), y=random.randint(-5,5), move_speed=0):
             Health.__init__(self, max_health)
-            Name.__init__(self, id=random_value, name='base')
-            Position.__init__(self)
+            Name.__init__(self, id=random_value, name=f'base [{random_value}]')
+            Position.__init__(self, x,y, move_speed)
     return Base
     
 planes = []
@@ -177,17 +178,27 @@ while(True):
         elif (30 <plane_id <= 60):
             target = random.choice(bases)
             plane.attack(target)
+        else:
+            target = random.choice(planes)
+            if target.get_health() == 0:
+                pass
+            else:
+                plane.healing(target)
+            
+            
+
+
 
 
     if len(destroyed_bases) == 3 :
         print("You win!")
         exit()
 
-    print(len(destroyed_planes))
     if len(destroyed_planes) > 8 :
         for plane in planes:
             if(plane.get_health() > 0):
                 print(f'{plane.get_name()} : {plane.get_health()} ♥️ : {plane.get_position()} - Plane Won!')
+                break
         exit()
 
     
