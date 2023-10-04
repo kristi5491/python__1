@@ -33,6 +33,11 @@ class Book:
     
     def set_page (self, page):
         self.__pages.append(page)
+    def getFormat(self):
+        return self.__format
+    def getPages(self):
+        return self.__pages
+    
 
 class CreateBook(Builder):
     def get_format(self):
@@ -42,7 +47,26 @@ class CreateBook(Builder):
         page = input('input page: ')
         return page
 
+class Singleton:
+    __instance = None
+    @staticmethod
+    def getInstance():
+        if Singleton.__instance == None:
+            Singleton()
+        return Singleton.__instance
 
+    def add_book_id(self, book):
+        count = len(self.book_ids)
+        self.book_ids[f'{book.book_description.name}{count + 1}'] = book
+    def get_dict(self):
+        return self.book_ids 
+ 
+    def __init__(self):
+        if Singleton.__instance != None:
+            raise Exception("This class is a singleton!")
+        else:
+            Singleton.__instance = self
+            self.book_ids = dict()
 
 
 
@@ -88,43 +112,80 @@ class AbstractLibraryFactory:
         raise Exception("this is not book class")
 class ScienceBookFactory(AbstractLibraryFactory):
     def create(self):
-        book_desc = ScienceBook('Science Book')
+        book_desc = ScienceBook('Science_Book')
         book_desc.usedLitList(input('input list of literature:'))
         book_desc.add_glossarium(input('input glossarium:'))
         director.setBuilder(CreateBook())
         book_pages = director.getBook()
         full_book = LinkedBook(book_desc, book_pages)
+        singl.add_book_id(full_book)
         return full_book
 class NovelBookFactory(AbstractLibraryFactory):
     def create(self):
-        book = NovelBook('Novel Book')
+        book = NovelBook('Novel_Book')
         book.character_list(input('input character list:'))
         book.brief_description(input('input brief description:'))
         director.setBuilder(CreateBook())
         book_pages = director.getBook()
         full_book = LinkedBook(book, book_pages)
+        singl.add_book_id(full_book)
         return full_book     
 class ManualBookFactory(AbstractLibraryFactory):
     def create(self ):
-        book = ManualBook('Manual Book')
+        book = ManualBook('Manual_Book')
         book.add_image(input('input image:'))
         director.setBuilder(CreateBook())
         book_pages = director.getBook()
         full_book = LinkedBook(book, book_pages)
+        singl.add_book_id(full_book)
         return full_book
     
 def create_book(bookFactory: AbstractLibraryFactory):
     return bookFactory.create()
 
-scienceBook = create_book(ScienceBookFactory())
 
+singl = Singleton()
 
-
-
-
-
-
-
-
-
-
+while True:
+    print('\nChoose what you want to do:\n1. Write a book\n2. View librariesу\n3. End the program \n4.generate book')
+    choice = input('Введіть відповідь: ')
+    match choice:
+        case '1':
+            print('\nChoose the type of book you will write:\n1. ScienceBook\n2. NovelBook\n3. ManualBook')
+            choice = input('Введіть відповідь: ')
+            book = None
+            match choice:
+                case '1':
+                    book = create_book(ScienceBookFactory())
+                    print('\nYou wrote a Scientific book!')
+                case '2':
+                    book = create_book(NovelBookFactory())
+                    print('\nYou wrote a Novel book!')
+                case '3':
+                    book = create_book(ManualBookFactory())
+                    print('\nYou wrote a Manual book!')
+        case '2':
+            dictionary = singl.get_dict()
+            print('\n')
+            for dict in dictionary:
+                print(dict)
+            print('\n')
+            bookName = input('Введіть назву книги з якою хочете взаємодіяти: ')
+            if(dictionary.get(bookName) is not None):
+                while True:
+                    print('\nВиберіть що ви хочете зробити:\n1. Перечитати усю книгу\n2. Повернутись до головного меню\n')
+                    choice = input('Введіть відповідь: ')
+                    match choice:
+                        case '1':
+                            pages = dictionary[bookName].book_pages.getPages()
+                            i = 1
+                            for page in pages:
+                                print(f'{i}: {page}')
+                                i += 1
+                        case '2':
+                            break
+            else:
+                print('\nТакої книги не знайдено!\n') 
+        case '3':
+            break
+       
