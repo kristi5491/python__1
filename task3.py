@@ -143,7 +143,6 @@ class ManualBookFactory(AbstractLibraryFactory):
 def create_book(bookFactory: AbstractLibraryFactory):
     return bookFactory.create()
 
-
 singl = Singleton()
 
 while True:
@@ -188,4 +187,19 @@ while True:
                 print('\nТакої книги не знайдено!\n') 
         case '3':
             break
+        case '4':
+            import random
+            
+            # book = [ScienceBookFactory,NovelBookFactory,ManualBookFactory]
+            # random_class = random.choice(book)()
+            # random_class.create()
+
+            # import string
+
+            # generate_random_book()
+    
+
+
+            # random_desc = ["красивий", "цікавий", "незабутній", "фантастичний", "неймовірний",
+            #    "дивовижний", "улюблений", "вражаючий", "чарівний", "заворожуючий"]
        
