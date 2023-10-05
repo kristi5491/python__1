@@ -7,6 +7,8 @@ time_dict = {year: event for year,  event in events}
 
 set_years = set([1991, 2023, 2019, 2004])
 
+years_to_visit = [1991, 2023, 2010]
+
 
 print('список подій:')
 for year, event in events:
@@ -22,15 +24,14 @@ print("що ви хочете зробити:\n 1)Відправитись в я
 choice = input("введіть відповідь:")
 match choice:
     case '1':
-        try : 
-            user_input = input('введіть рік в який хочете відправитись: ')
-            year = int(user_input)
-            if year in set_years:
-                print(f"У {year}, році відбулась подія: {time_dict[year]}")
-            else:
-                raise ValueError
-        except ValueError:
-            print(f'ви не можете відпраитись в {user_input}  рік')
+            for year in years_to_visit:
+                try:
+                    if year in set_years:
+                        print(f"У {year}, році відбулась подія: {time_dict[year]}")
+                    else:
+                       raise ValueError
+                except ValueError:
+                    print(f'ви не можете відпраитись в {year}  рік')
     case '2':
             print("Словник часу: ")
             for year, event in time_dict.items():
