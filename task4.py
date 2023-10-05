@@ -36,19 +36,22 @@ match choice:
             for year, event in time_dict.items():
                 print(f"У {year}, році відбулась подія: {time_dict[year]}")
             print('також ти можеш:\n 1)видалити подію\n 2)добавити подію')
-            match choice:
+            choice2 = input('')
+            match choice2:
                 case '1':
-                    num = input('введіть рік')
-                    if (num  == year):
-                        set.pop(num)
-                    else:
-                        print('ви ввели число якого немає в словнику')
+                    num = input('введіть рік: ')
+                    try:
+                        set_years.remove(int(num))
+                        print(f'ви видвлили 2 {num}')
+                    except KeyError:
+                         print('ви ввели число якого немає в словнику')
                 case '2':
-                    num = input('ввкдіть рік')
-                    if (num  == year):
-                        set.push(num)
-                    else:
-                            print('ви ввели число якого немає в словнику')
+                    num = input('ввкдіть рік: ')
+                    try:
+                        set_years.add(int(num))
+                        print(f'ви добавили {num}')
+                    except KeyError:
+                         print('ви ввели число якого немає в словнику')
                       
 
     case '3':
