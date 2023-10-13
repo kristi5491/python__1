@@ -11,10 +11,10 @@ studets_file = 'students.csv'
 with open(studets_file, 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(headers)
-def add_students( fname = '', lastname= '', age=0, specialty='' ):
+def add_students( name = '', lastname= '', age=0, specialty='' ):
     with open(studets_file, 'a') as file:
         writer = csv.writer(file)
-        students_d = [fname, lastname, age, specialty]
+        students_d = [name, lastname, age, specialty]
         writer.writerow(students_d)
 def read_db():
     with open(studets_file, 'r' ) as file:
@@ -22,14 +22,14 @@ def read_db():
         for row in inf:
             print(row)
 
-def print_age(fname = '', lastname= '', age=0, specialty=''):
+def print_age(name = '', lastname= '', age=0, specialty=''):
     with open(studets_file, 'r') as file:
-        inf = csv.reader
+        inf = csv.reader(file)
+        students_d = [name, lastname, age, specialty]
         for row in inf:
             age = int(age)
-            fname,age = row
             if age > 20:
-                print(f'{fname}, {lastname}, {age}, {specialty}')
+                print(f'{name}, {lastname}, {age}, {specialty}')
             else:
                 print('---')
         
