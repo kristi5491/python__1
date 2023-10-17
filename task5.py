@@ -1,12 +1,12 @@
 studets_file = 'students.csv'
 def create_db():
     with open(studets_file, 'w', newline='') as file:
-        headers = ['id ' 'Name ' 'LastName ' 'Age ' 'Specialty']
+        headers = ['id', 'Name','LastName','Age','Specialty']
         file.write(','.join(headers) + '\n')
 
 def add_students( id=0, name = '', lastname= '', age=0, specialty='' ):
     with open('students.csv', 'a', newline='') as file:
-        file.write(f'{id}, {name},{lastname},{age},{specialty}\n')
+        file.write(f'{id},{name},{lastname},{age},{specialty}\n')
 
 
 def read_db():
@@ -114,16 +114,6 @@ def get_avarage():
 
 
 
-    
-
-
-
-    
-        
-
-        
-
-
 create_db()
 
 add_students( 1, 'alica', 'wonk', 21, 'Lawyer')
@@ -131,9 +121,9 @@ add_students( 2, 'Ola', 'Leins', 20, 'Doctor')
 add_students( 3, 'lora', 'Jains', 35, 'Doctor')
 add_students( 4, 'Andry' ,'Mcalin', 19, 'Lawyer')
 add_students( 5, 'Ola' ,'Bublik', 28, 'Doctor')
-get_avarage()
+# get_avarage()
 read_db()
-print_age()
-rewrite_students()
-delete_student()
-sort_stud()
+# print_age()
+# rewrite_students()
+# delete_student()
+# sort_stud()
