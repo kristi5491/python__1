@@ -10,15 +10,39 @@ window.geometry("400x300")
 def send_message():
     message = entry.get()
     if message:
-        client.send(message.encode())
-        chat_display.insert(tk.END, f"You: {message}\n")
+        full_message = f"{name}: {message}"
+        client.send(full_message.encode())
+        chat_display.insert(tk.END, full_message + "\n")
         entry.delete(0, tk.END)
+    else:
+       full_message = ""
+       client.send(full_message.encode()) 
 
 def receive_messages():
     while True:
-        message = client.recv(1024).decode()
-        chat_display.insert("end", f"{message}\n")
+        try:
+            message = client.recv(1024).decode()
+            chat_display.insert(tk.END, message + "\n")
+        except ConnectionResetError:
+            break
 
+name = None
+
+def get_name():
+    global name
+    name = choose_name.get()
+    secondary_window.destroy()
+    send_message()
+
+secondary_window = tk.Toplevel(window)
+secondary_window.title("Choose name")
+secondary_window.geometry('240x60')
+
+choose_name = tk.Entry(secondary_window, width=10)
+choose_name.grid(row=2, column=4, padx=12, pady=12, sticky="ew")
+
+confirm_button = tk.Button(secondary_window, text='Confirm', width=5, command=get_name)
+confirm_button.grid(row=2, column=6, padx=12, pady=12, sticky="ew")
 
 chat_display = scrolledtext.ScrolledText(window, wrap=tk.WORD, width=40, height=10)
 chat_display.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
